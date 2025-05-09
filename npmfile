@@ -1,0 +1,10 @@
+npm install nativewind tailwindcss react-native-reanimated react-native-safe-area-context
+
+after installing tailwindcss, run
+npx tailwindcss init
+
+run this command after including babel.config.js
+npx expo customize metro.config.js
+
+then after create a file call nativewind-env.d.ts and add
+/// <reference types="nativewind/types" />
