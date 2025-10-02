@@ -6,6 +6,7 @@ import { useFetch } from '@/services/service_hooks/useFetch';
 import { fetchMovies } from '@/services/api';
 import { icons } from '@/constants/icons';
 import SearchBar from '@/components/SearchBar';
+import { updateSearchCount } from '@/services/appwrite_service/appwrite';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,8 +32,15 @@ const Search = () => {
         resetMovies();
       }
       return () => clearTimeout(timeOutId);
-    }, 500);
-  }, [searchQuery, loadMovies, resetMovies]);
+    }, 1000);
+  }, [searchQuery, loadMovies, resetMovies, movies]);
+
+  //Loadtrending movie
+  useEffect(() => {
+    if (movies?.length > 0 && movies?.[0]) {
+      updateSearchCount(searchQuery, movies[0]);
+    }
+  }, [movies, searchQuery]);
 
   return (
     <View className="flex-1 bg-primary">
@@ -79,7 +87,7 @@ const Search = () => {
               searchQuery.trim() &&
               movies?.length > 0 && (
                 <Text className="text-xl text-white font-bold">
-                  Search Results for
+                  Search Results for:
                   <Text className="text-accent">{searchQuery}</Text>
                 </Text>
               )}
